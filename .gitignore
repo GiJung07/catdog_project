@@ -1,4 +1,4 @@
-catdog_pt/
+data/
 *.pth
 __pycache__/
 .venv/
