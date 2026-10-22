@@ -1,0 +1,5 @@
+catdog_pt/
+*.pth
+__pycache__/
+.venv/
+.ipynb_checkpoints/
