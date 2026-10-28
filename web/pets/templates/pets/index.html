@@ -2,10 +2,38 @@
 <html lang="ko">
 <head>
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{{ title }}</title>
+  <style>
+    body { font-family: sans-serif; max-width: 480px; margin: 40px auto; padding: 0 16px; }
+    .bar { background: #eee; border-radius: 6px; height: 12px; }
+    .bar i { display: block; height: 100%; background: #0f7d80; border-radius: 6px; }
+    img { max-width: 100%; border-radius: 8px; }
+  </style>
 </head>
 <body>
   <h1>{{ title }}</h1>
-  <p>{{ message }}</p>
+  <p>개나 고양이 사진을 올려 주세요.</p>
+
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">판별하기</button>
+  </form>
+
+  {% if result %}
+    <hr>
+    <img src="{{ result.image }}" alt="올린 사진">
+    {% if result.sure %}
+      <h2>{% if result.label == "개" %}🐶{% else %}🐱{% endif %} {{ result.label }}예요!</h2>
+    {% else %}
+      <h2>🤔 잘 모르겠어요</h2>
+      <p>개나 고양이 사진이 맞나요? 확신이 80%보다 낮아요.</p>
+    {% endif %}
+    <p>고양이 {{ result.cat }}%</p>
+    <div class="bar"><i style="width: {{ result.cat }}%"></i></div>
+    <p>개 {{ result.dog }}%</p>
+    <div class="bar"><i style="width: {{ result.dog }}%"></i></div>
+  {% endif %}
 </body>
 </html>
